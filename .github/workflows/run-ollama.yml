@@ -31,7 +31,7 @@ jobs:
       - name: Execute Ollama query
         run: |
           docker exec ollama-container \
-            ollama run deepseek-r1:1.5b "Hi there"
+            ollama run deepseek-r1 "Hi there"
 
       - name: Verify output
         run: |
