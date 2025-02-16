@@ -30,6 +30,11 @@ jobs:
       - name: Wait for Ollama to start
         run: sleep 10  # Give the container some time to initialize
 
+      - name: Pull AI model
+        run: |
+          docker exec ollama-container \
+            ollama pull deepseek-r1
+
       - name: Execute Ollama query
         run: |
           docker exec ollama-container \
