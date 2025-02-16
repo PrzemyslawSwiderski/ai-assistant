@@ -1,0 +1,38 @@
+name: Run Ollama Docker Container
+
+on:
+  workflow_dispatch:  # Allows manual triggering of the workflow
+
+jobs:
+  run-ollama:
+    runs-on: ubuntu-latest  # Use the latest Ubuntu runner
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3  # Check out the repository code
+
+      - name: Set up Docker
+        id: docker
+        uses: docker/setup-buildx-action@v2  # Set up Docker Build
+
+      - name: Pull Ollama Docker image
+        run: docker pull alpine/ollama:0.3.13  # Replace with the correct image name
+
+      - name: Run Ollama Docker container
+        run: |
+          docker run -d \
+            --name ollama-container \
+            -v ollama:/root/.ollama \
+            alpine/ollama:0.3.13
+
+      - name: Wait for Ollama to start
+        run: sleep 10  # Give the container some time to initialize
+
+      - name: Execute Ollama query
+        run: |
+          docker exec ollama-container \
+            ollama run deepseek-r1:1.5b "Hi there"
+
+      - name: Verify output
+        run: |
+          echo "Query executed successfully!"
