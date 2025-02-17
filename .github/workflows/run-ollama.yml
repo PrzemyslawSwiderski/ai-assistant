@@ -14,11 +14,14 @@ jobs:
       - name: Set up Docker
         id: docker
         uses: docker/setup-buildx-action@v3.9.0  # Set up Docker Build
-        with:
-          cleanup: false
 
       - name: Pull Ollama Docker image
         run: docker pull alpine/ollama:0.3.13  # Replace with the correct image name
+
+      - name: Download volume data
+        uses: actions/download-artifact@v4
+        with:
+          name: shared-volume
 
       - name: Run Ollama Docker container
         run: |

@@ -1,11 +1,4 @@
 # Available Alpine Ollama docker images https://hub.docker.com/r/alpine/ollama/tags
 FROM alpine/ollama:0.3.13
 
-WORKDIR /app
-
-COPY entrypoint.sh /entrypoint.sh
-COPY test-project ./test-project
-
-RUN chmod +x /entrypoint.sh
-
-ENTRYPOINT ["/entrypoint.sh"]
+RUN echo "Hi there from the build"
