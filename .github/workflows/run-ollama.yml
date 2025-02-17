@@ -47,12 +47,8 @@ jobs:
           docker exec ollama-container \
             ollama pull deepseek-r1
 
-      - name: Save Ollama model data
-        uses: actions/cache/save@v4
-        id: cache-save
-        with:
-          path: ollama-data
-          key: ollama_cache
+      - name: Execute Ollama query
+        run: lsof | grep ollama-data
 
       - name: Execute Ollama query
         run: |
@@ -62,3 +58,16 @@ jobs:
       - name: Verify output
         run: |
           echo "Query executed successfully!"
+
+      - name: Stop Ollama container
+        run: docker rm -f ollama-container
+
+      - name: List model data
+        run: tree ./ollama-data;
+
+      - name: Save Ollama model data
+        uses: actions/cache/save@v4
+        id: cache-save
+        with:
+          path: ollama-data
+          key: ollama_cache
