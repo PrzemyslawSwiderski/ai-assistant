@@ -1,15 +1,17 @@
 name: Run Ollama Docker Container
 
 on:
-  push:
-    branches:
-      - 'main'
   workflow_dispatch:  # Allows manual triggering of the workflow
     inputs:
       model:
         description: 'Model'
         required: true
         default: 'deepseek-r1'
+        type: string
+      query:
+        description: 'Query'
+        required: true
+        default: '"What is the most populous city in the middle of Poland?"'
         type: string
 
 env:
@@ -56,7 +58,7 @@ jobs:
       - name: Execute Ollama query
         run: |
           docker exec ollama-container \
-            ollama run ${{ github.event.inputs.model }} "What is the capital of Poland?"
+            ollama run ${{ github.event.inputs.model }} ${{ github.event.inputs.query }}
 
       - name: Verify output
         run: |
