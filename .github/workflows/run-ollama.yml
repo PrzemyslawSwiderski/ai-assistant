@@ -24,7 +24,7 @@ jobs:
       - name: Pull Ollama Docker image
         run: docker pull ${{ env.IMAGE_TAG }}  # Replace with the correct image name
 
-      - name: Cache Ollama Data
+      - name: Cache Ollama Models
         id: cache-ollama
         uses: actions/cache@v4
         with:
@@ -62,12 +62,5 @@ jobs:
       - name: Stop Ollama container
         run: docker rm -f ollama-container
 
-      - name: List model data
-        run: tree ./ollama-data;
-
-      - name: Save Ollama model data
-        uses: actions/cache/save@v4
-        id: cache-save
-        with:
-          path: ollama-data/models
-          key: ollama_cache
+      - name: Execute Ollama query 2323
+        run: lsof | grep ollama-data
