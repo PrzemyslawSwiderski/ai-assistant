@@ -47,8 +47,8 @@ jobs:
           docker exec ollama-container \
             ollama pull deepseek-r1
 
-      - name: Execute Ollama query
-        run: lsof | grep ollama-data
+#      - name: Execute Ollama query
+#        run: lsof | grep ollama-data
 
       - name: Execute Ollama query
         run: |
