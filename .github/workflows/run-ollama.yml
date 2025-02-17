@@ -28,7 +28,7 @@ jobs:
         id: cache-ollama
         uses: actions/cache@v4
         with:
-          path: ollama-data
+          path: ollama-data/models
           key: ollama_cache
 
       - name: Run Ollama Docker container
@@ -69,5 +69,5 @@ jobs:
         uses: actions/cache/save@v4
         id: cache-save
         with:
-          path: ollama-data
+          path: ollama-data/models
           key: ollama_cache
