@@ -28,15 +28,14 @@ jobs:
         id: cache-ollama
         uses: actions/cache@v4
         with:
-          path: |
-            ollama_data
+          path: ollama-data
           key: ollama_cache
 
       - name: Run Ollama Docker container
         run: |
           docker run -d \
             --name ollama-container \
-            -v ./ollama_data:/root/.ollama \
+            -v ./ollama-data:/root/.ollama \
             ${{ env.IMAGE_TAG }}
 
       - name: Wait for Ollama to start
@@ -47,6 +46,9 @@ jobs:
         run: |
           docker exec ollama-container \
             ollama pull deepseek-r1
+
+      - name: List model data
+        run: ls -al ./ollama-data; pwd; ls -al .;
 
       - name: Execute Ollama query
         run: |
