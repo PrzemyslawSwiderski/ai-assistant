@@ -4,5 +4,5 @@ FROM alpine/ollama:0.3.13
 # Download DeepSeek model
 RUN ollama serve & sleep 5 ; ollama pull deepseek-r1 ; \
     echo "kill 'ollama serve' process" ; \
-    ps -ef \
+    ps -ef ; \
     pkill -9 -f 'ollama serve'
