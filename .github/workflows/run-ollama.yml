@@ -1,6 +1,9 @@
 name: Run Ollama Docker Container
 
 on:
+  push:
+    branches:
+      - 'main'
   workflow_dispatch:  # Allows manual triggering of the workflow
 
 env:
@@ -21,15 +24,12 @@ jobs:
       - name: Pull Ollama Docker image
         run: docker pull ${{ env.IMAGE_TAG }}  # Replace with the correct image name
 
-      - name: Download volume data
-        uses: actions/download-artifact@v4
-        with:
-          name: shared-volume
       - name: Cache Gradle packages
         uses: actions/cache@v4
         with:
           path: |
             $(pwd)/.ollama
+
       - name: Run Ollama Docker container
         run: |
           docker run -d \
