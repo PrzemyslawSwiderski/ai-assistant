@@ -39,16 +39,13 @@ jobs:
             ${{ env.IMAGE_TAG }}
 
       - name: Wait for Ollama to start
-        run: sleep 10  # Give the container some time to initialize
+        run: sleep 5  # Give the container some time to initialize
 
       - name: Pull AI model
         if: steps.cache-ollama.outputs.cache-hit != 'true'
         run: |
           docker exec ollama-container \
             ollama pull deepseek-r1
-
-#      - name: Execute Ollama query
-#        run: lsof | grep ollama-data
 
       - name: Execute Ollama query
         run: |
@@ -58,9 +55,3 @@ jobs:
       - name: Verify output
         run: |
           echo "Query executed successfully!"
-
-      - name: Stop Ollama container
-        run: docker rm -f ollama-container
-
-      - name: Execute Ollama query 2323
-        run: lsof | grep ollama-data
