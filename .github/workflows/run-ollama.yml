@@ -1,4 +1,4 @@
-name: Run Ollama Docker Container
+name: Run Ollama Query
 
 on:
   workflow_dispatch:  # Allows manual triggering of the workflow
@@ -11,7 +11,7 @@ on:
       query:
         description: 'Query'
         required: true
-        default: '"What is the most populous city in the middle of Poland?"'
+        default: 'What is the most populous city in the middle of Poland?'
         type: string
 
 env:
