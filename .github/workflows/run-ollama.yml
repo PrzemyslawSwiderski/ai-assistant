@@ -3,6 +3,9 @@ name: Run Ollama Docker Container
 on:
   workflow_dispatch:  # Allows manual triggering of the workflow
 
+env:
+  IMAGE: ghcr.io/${{ github.repository }}
+
 jobs:
   run-ollama:
     runs-on: ubuntu-latest  # Use the latest Ubuntu runner
@@ -16,7 +19,7 @@ jobs:
         uses: docker/setup-buildx-action@v3.9.0  # Set up Docker Build
 
       - name: Pull Ollama Docker image
-        run: docker pull alpine/ollama:0.3.13  # Replace with the correct image name
+        run: docker pull ${{ env.IMAGE }}  # Replace with the correct image name
 
       - name: Download volume data
         uses: actions/download-artifact@v4
@@ -28,7 +31,7 @@ jobs:
           docker run -d \
             --name ollama-container \
             -v ollama:/root/.ollama \
-            alpine/ollama:0.3.13
+            ${{ env.IMAGE }}
 
       - name: Wait for Ollama to start
         run: sleep 10  # Give the container some time to initialize

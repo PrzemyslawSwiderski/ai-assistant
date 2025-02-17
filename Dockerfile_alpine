@@ -1,4 +1,7 @@
 # Available Alpine Ollama docker images https://hub.docker.com/r/alpine/ollama/tags
 FROM alpine/ollama:0.3.13
 
-RUN echo "Hi there from the build"
+# Download DeepSeek model
+RUN ollama serve & sleep 5 ; ollama pull deepseek-r1 ; \
+echo "kill 'ollama serve' process" ; \
+ps -ef | grep 'ollama serve' | grep -v grep | awk '{print $2}' | xargs -r kill -9
