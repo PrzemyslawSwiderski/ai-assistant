@@ -5,6 +5,12 @@ on:
     branches:
       - 'main'
   workflow_dispatch:  # Allows manual triggering of the workflow
+    inputs:
+      model:
+        description: 'Model'
+        required: true
+        default: 'deepseek-r1'
+        type: string
 
 env:
   IMAGE_TAG: "ghcr.io/przemyslawswiderski/ai-assistant:latest"
@@ -29,7 +35,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ollama-data/models
-          key: ollama_cache
+          key: ollama_cache_${{ github.event.inputs.model }}
 
       - name: Run Ollama Docker container
         run: |
@@ -45,12 +51,12 @@ jobs:
         if: steps.cache-ollama.outputs.cache-hit != 'true'
         run: |
           docker exec ollama-container \
-            ollama pull deepseek-r1
+            ollama pull ${{ github.event.inputs.model }}
 
       - name: Execute Ollama query
         run: |
           docker exec ollama-container \
-            ollama run deepseek-r1 "What is the capital of Poland?"
+            ollama run ${{ github.event.inputs.model }} "What is the capital of Poland?"
 
       - name: Verify output
         run: |
