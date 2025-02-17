@@ -24,24 +24,26 @@ jobs:
       - name: Pull Ollama Docker image
         run: docker pull ${{ env.IMAGE_TAG }}  # Replace with the correct image name
 
-      - name: Cache Gradle packages
+      - name: Cache Ollama Data
+        id: cache-ollama
         uses: actions/cache@v4
         with:
           path: |
-            $(pwd)/.ollama
-          key: ollama_data
+            ollama_data
+          key: ollama_cache
 
       - name: Run Ollama Docker container
         run: |
           docker run -d \
             --name ollama-container \
-            -v $(pwd)/.ollama:/root/.ollama \
+            -v ./ollama_data:/root/.ollama \
             ${{ env.IMAGE_TAG }}
 
       - name: Wait for Ollama to start
         run: sleep 10  # Give the container some time to initialize
 
       - name: Pull AI model
+        if: steps.cache-ollama.outputs.cache-hit != 'true'
         run: |
           docker exec ollama-container \
             ollama pull deepseek-r1
