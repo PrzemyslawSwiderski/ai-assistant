@@ -2,7 +2,7 @@
 FROM alpine/ollama:0.3.13
 
 # Download DeepSeek model
-RUN ollama serve & sleep 5 ; ollama pull deepseek-r1 ; \
-    echo "kill 'ollama serve' process" ; \
-    ps -ef ; \
-    pkill -9 -f 'ollama serve'
+RUN ollama serve & sleep 5 ; \
+    ollama pull deepseek-r1 ; \
+    pkill -9 -f 'ollama serve'; \
+    ps -ef;
